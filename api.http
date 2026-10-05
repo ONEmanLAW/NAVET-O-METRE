@@ -1,0 +1,14 @@
+@baseUrl = http://127.0.0.1:8000
+
+### Lister les films
+GET {{baseUrl}}/movies
+
+### Créer un film
+POST {{baseUrl}}/movies
+Content-Type: application/json
+
+{
+  "title": "KEBAB SIMULATOR",
+  "year": 2027,
+  "director": "Ellie & Hugo"
+}
