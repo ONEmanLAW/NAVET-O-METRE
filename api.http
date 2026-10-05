@@ -2,6 +2,7 @@
 
 ### Lister les films
 GET {{baseUrl}}/movies
+GET {{baseUrl}}/movies?message=coucou
 
 ### Créer un film
 POST {{baseUrl}}/movies
