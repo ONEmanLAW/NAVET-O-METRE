@@ -17,7 +17,6 @@ final class MoviesController extends AbstractController
         #[MapQueryString] QueryDTO $queryDTO
     ): JsonResponse
     {
-        dd($request->query->all(), $queryDTO);
         return $this->json($queryDTO);
     }
 }
