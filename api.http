@@ -1,37 +1,94 @@
-@baseUrl = http://127.0.0.1:8000
+@baseURL = http://127.0.0.1:8000
+
+### ========== CREATE ==========
+
+### Créer un film
+POST {{baseURL}}/movies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "My movie",
+  "description": "Un film pour tester les filtres.",
+  "releaseDate": 2026
+}
+
+### Créer un film invalide : 422
+POST {{baseURL}}/movies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "",
+  "description": "Titre vide, doit être refusé.",
+  "releaseDate": 2026
+}
+
+### ========== READ ==========
 
 ### Tous les films
-GET {{baseUrl}}/movies
+GET {{baseURL}}/movies
 Accept: application/json
 
-### Premier film
-GET {{baseUrl}}/movies/1
+### Filtre titre
+GET {{baseURL}}/movies?title=my
 Accept: application/json
 
-### Créer un film en base
-POST {{baseUrl}}/test
+### Filtre année
+GET {{baseURL}}/movies?year=2026
 Accept: application/json
 
-### Supprimer le movie 4
-DELETE {{baseUrl}}/movies/4
+### Filtre titre + année
+GET {{baseURL}}/movies?title=my&year=2026
 Accept: application/json
 
-### Supprimer le movie 5
-DELETE {{baseUrl}}/movies/5
+### Pagination
+GET {{baseURL}}/movies?page=2&limit=1
 Accept: application/json
+
+### Filtre + pagination
+GET {{baseURL}}/movies?title=o&page=2&limit=1
+Accept: application/json
+
+### Un film
+GET {{baseURL}}/movies/1
+Accept: application/json
+
+### Film inexistant : 404
+GET {{baseURL}}/movies/999
+Accept: application/json
+
+### ========== UPDATE ==========
+
+### Modifier le film 1
+PUT {{baseURL}}/movies/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Inception (version longue)",
+  "description": "Un voleur s'infiltre dans les rêves pour y implanter une idée.",
+  "releaseDate": 2010
+}
+
+### ========== DELETE ==========
+
+### Supprimer un film
+DELETE {{baseURL}}/movies/6
+Accept: application/json
+
+### ========== CATEGORIES ==========
 
 ### Toutes les catégories
-GET {{baseUrl}}/categories
+GET {{baseURL}}/categories
 Accept: application/json
 
-### Une catégorie avec ses films
-GET {{baseUrl}}/categories/1
+### Une catégorie
+GET {{baseURL}}/categories/1
 Accept: application/json
 
-### Créer un film en base
-POST {{baseUrl}}/newFilmTest
-Accept: application/json
+### ========== EXERCICE MESSAGE ==========
 
-### Message Hello
-GET {{baseUrl}}/message?message=hello
+### Message
+GET {{baseURL}}/message?message=hello
 Accept: application/json

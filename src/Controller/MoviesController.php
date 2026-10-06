@@ -3,6 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Model\MovieDTO;
+use App\Model\MovieFilterDTO;
+use App\Model\PaginationDTO;
+use App\Model\Paginator;
 use App\Model\QueryDTO;
 use App\Repository\MovieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class MoviesController extends AbstractController
@@ -25,16 +30,54 @@ final class MoviesController extends AbstractController
     }
 
     #[Route('/movies', name: 'app_movies_list', methods: ['GET'])]
-    public function list(MovieRepository $movieRepository): JsonResponse
+    public function list(
+        MovieRepository $movieRepository,
+        #[MapQueryString] MovieFilterDTO $filters = new MovieFilterDTO(),
+        #[MapQueryString] PaginationDTO $pagination = new PaginationDTO(),
+    ): JsonResponse
     {
-        $movies = $movieRepository->findAll();
+        $query = $movieRepository->createFilteredQueryBuilder($filters);
+        $paginator = (new Paginator())->paginate($query, $pagination);
 
-        return $this->json($movies, Response::HTTP_OK);
+        return $this->json($paginator, Response::HTTP_OK);
     }
 
     #[Route('/movies/{id}', name: 'app_movies_show', methods: ['GET'])]
     public function show(Movie $movie): JsonResponse
     {
+        return $this->json($movie, Response::HTTP_OK);
+    }
+
+    #[Route('/movies', name: 'app_movies_create', methods: ['POST'])]
+    public function create(
+        #[MapRequestPayload] MovieDTO $movieDTO,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $movie = new Movie();
+        $movie->setTitle($movieDTO->title);
+        $movie->setDescription($movieDTO->description);
+        $movie->setReleaseDate($movieDTO->releaseDate);
+
+        $entityManager->persist($movie);
+        $entityManager->flush();
+
+        return $this->json($movie, Response::HTTP_CREATED);
+    }
+
+    #[Route('/movies/{id}', name: 'app_movies_update', methods: ['PUT'])]
+    public function update(
+        Movie $movie,
+        #[MapRequestPayload] MovieDTO $movieDTO,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $movie->setTitle($movieDTO->title);
+        $movie->setDescription($movieDTO->description);
+        $movie->setReleaseDate($movieDTO->releaseDate);
+
+        $entityManager->flush();
+
         return $this->json($movie, Response::HTTP_OK);
     }
 
@@ -45,19 +88,5 @@ final class MoviesController extends AbstractController
         $entityManager->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
-    }
-
-    #[Route('/newFilmTest', name: 'app_movies_example', methods: ['POST'])]
-    public function example(EntityManagerInterface $entityManager): JsonResponse
-    {
-        $movie = new Movie();
-        $movie->setTitle('Kebab simulator');
-        $movie->setDescription('The kebab simulator');
-        $movie->setReleaseDate(2027);
-
-        $entityManager->persist($movie);
-        $entityManager->flush();
-
-        return $this->json($movie, Response::HTTP_CREATED);
     }
 }

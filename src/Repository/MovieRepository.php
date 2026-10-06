@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Movie;
+use App\Model\MovieFilterDTO;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +16,26 @@ class MovieRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Movie::class);
+    }
+
+    public function createFilteredQueryBuilder(MovieFilterDTO $filters): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('m')
+            ->orderBy('m.id', 'ASC');
+
+        if ($filters->title !== null) {
+            $queryBuilder
+                ->andWhere('m.title LIKE :title')
+                ->setParameter('title', '%' . $filters->title . '%');
+        }
+
+        if ($filters->year !== null) {
+            $queryBuilder
+                ->andWhere('m.releaseDate = :year')
+                ->setParameter('year', $filters->year);
+        }
+
+        return $queryBuilder;
     }
 
 //    /**
