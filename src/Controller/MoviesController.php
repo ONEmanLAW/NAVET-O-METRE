@@ -52,13 +52,13 @@ final class MoviesController extends AbstractController
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 
-    #[Route('/test', name: 'app_movies_example', methods: ['POST'])]
+    #[Route('/newFilmTest', name: 'app_movies_example', methods: ['POST'])]
     public function example(EntityManagerInterface $entityManager): JsonResponse
     {
         $movie = new Movie();
-        $movie->setTitle('Inception');
-        $movie->setDescription('Un voleur s\'infiltre dans les rêves pour y implanter une idée.');
-        $movie->setReleaseDate(2010);
+        $movie->setTitle('Kebab simulator');
+        $movie->setDescription('The kebab simulator');
+        $movie->setReleaseDate(2027);
 
         $entityManager->persist($movie);
         $entityManager->flush();

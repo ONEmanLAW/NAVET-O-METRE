@@ -12,10 +12,24 @@ Accept: application/json
 POST {{baseUrl}}/test
 Accept: application/json
 
+### Supprimer le movie 4
 DELETE {{baseUrl}}/movies/4
 Accept: application/json
 
+### Supprimer le movie 5
 DELETE {{baseUrl}}/movies/5
+Accept: application/json
+
+### Toutes les catégories
+GET {{baseUrl}}/categories
+Accept: application/json
+
+### Une catégorie avec ses films
+GET {{baseUrl}}/categories/1
+Accept: application/json
+
+### Créer un film en base
+POST {{baseUrl}}/newFilmTest
 Accept: application/json
 
 ### Message Hello
