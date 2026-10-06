@@ -1,15 +1,23 @@
 @baseUrl = http://127.0.0.1:8000
 
-### Lister les films
+### Tous les films
 GET {{baseUrl}}/movies
-GET {{baseUrl}}/movies?message=coucou
+Accept: application/json
 
-### Créer un film
-POST {{baseUrl}}/movies
-Content-Type: application/json
+### Premier film
+GET {{baseUrl}}/movies/1
+Accept: application/json
 
-{
-  "title": "KEBAB SIMULATOR",
-  "year": 2027,
-  "director": "Ellie & Hugo"
-}
+### Créer un film en base
+POST {{baseUrl}}/test
+Accept: application/json
+
+DELETE {{baseUrl}}/movies/4
+Accept: application/json
+
+DELETE {{baseUrl}}/movies/5
+Accept: application/json
+
+### Message Hello
+GET {{baseUrl}}/message?message=hello
+Accept: application/json

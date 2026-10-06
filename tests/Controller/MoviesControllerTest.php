@@ -7,10 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MoviesControllerTest extends WebTestCase
 {
-    
     public function testWithoutQueryParameter() {
         $client = static::createClient();
-        $client->request('Get', '/movies');
+        $client->request('GET', '/message');
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -22,7 +21,7 @@ class MoviesControllerTest extends WebTestCase
 
     public function testWithMultipleQueryParameters() {
         $client = static::createClient();
-        $client->request('Get', '/movies?message=Hello&other=test');
+        $client->request('GET', '/message?message=Hello&other=test');
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 

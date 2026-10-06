@@ -2,21 +2,67 @@
 
 namespace App\Controller;
 
+use App\Entity\Movie;
 use App\Model\QueryDTO;
+use App\Repository\MovieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 final class MoviesController extends AbstractController
 {
-    #[Route('/movies', name: 'app_movies')]
-    public function index(
+    #[Route('/message', name: 'app_message')]
+    public function message(
         Request $request,
         #[MapQueryString] QueryDTO $queryDTO
     ): JsonResponse
     {
         return $this->json($queryDTO);
+    }
+
+    #[Route('/movies', name: 'app_movies_list', methods: ['GET'])]
+    public function list(MovieRepository $movieRepository): JsonResponse
+    {
+        $movies = $movieRepository->findAll();
+
+        return $this->json($movies, Response::HTTP_OK, [], [
+            AbstractNormalizer::IGNORED_ATTRIBUTES => ['movies'],
+        ]);
+    }
+
+    #[Route('/movies/{id}', name: 'app_movies_show', methods: ['GET'])]
+    public function show(Movie $movie): JsonResponse
+    {
+        return $this->json($movie, Response::HTTP_OK, [], [
+            AbstractNormalizer::IGNORED_ATTRIBUTES => ['movies'],
+        ]);
+    }
+
+    #[Route('/movies/{id}', name: 'app_movies_delete', methods: ['DELETE'])]
+    public function delete(Movie $movie, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $entityManager->remove($movie);
+        $entityManager->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('/test', name: 'app_movies_example', methods: ['POST'])]
+    public function example(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $movie = new Movie();
+        $movie->setTitle('Inception');
+        $movie->setDescription('Un voleur s\'infiltre dans les rêves pour y implanter une idée.');
+        $movie->setReleaseDate(2010);
+
+        $entityManager->persist($movie);
+        $entityManager->flush();
+
+        return $this->json($movie, Response::HTTP_CREATED);
     }
 }
