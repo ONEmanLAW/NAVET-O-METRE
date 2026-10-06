@@ -185,3 +185,16 @@ Accept: application/json
 ### Message
 GET {{baseURL}}/message?message=hello
 Accept: application/json
+
+
+### ==================== USERS ====================
+### Authenticate
+# @name login
+POST {{baseURL}}/api/login_check
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "password"
+}
+> {% client.global.set("token",response.body.token); %}
