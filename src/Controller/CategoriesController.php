@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 final class CategoriesController extends AbstractController
 {
@@ -16,15 +15,11 @@ final class CategoriesController extends AbstractController
     public function list(CategoryRepository $categoryRepository): JsonResponse {
         $categories = $categoryRepository->findAll();
 
-        return $this->json($categories, Response::HTTP_OK, [], [
-            AbstractNormalizer::IGNORED_ATTRIBUTES => ['movies'],
-        ]);
+        return $this->json($categories, Response::HTTP_OK);
     }
 
     #[Route('/categories/{id}', name: 'app_categories_show', methods: ['GET'])]
     public function show(Category $category): JsonResponse {
-        return $this->json($category, Response::HTTP_OK, [], [
-            AbstractNormalizer::IGNORED_ATTRIBUTES => ['categories'],
-        ]);
+        return $this->json($category, Response::HTTP_OK);
     }
 }

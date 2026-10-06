@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -22,6 +23,7 @@ class Category
      * @var Collection<int, Movie>
      */
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'categories')]
+    #[Ignore]
     private Collection $movies;
 
     public function __construct()

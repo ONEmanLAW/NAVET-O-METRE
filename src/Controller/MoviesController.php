@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 final class MoviesController extends AbstractController
 {
@@ -30,17 +29,13 @@ final class MoviesController extends AbstractController
     {
         $movies = $movieRepository->findAll();
 
-        return $this->json($movies, Response::HTTP_OK, [], [
-            AbstractNormalizer::IGNORED_ATTRIBUTES => ['movies'],
-        ]);
+        return $this->json($movies, Response::HTTP_OK);
     }
 
     #[Route('/movies/{id}', name: 'app_movies_show', methods: ['GET'])]
     public function show(Movie $movie): JsonResponse
     {
-        return $this->json($movie, Response::HTTP_OK, [], [
-            AbstractNormalizer::IGNORED_ATTRIBUTES => ['movies'],
-        ]);
+        return $this->json($movie, Response::HTTP_OK);
     }
 
     #[Route('/movies/{id}', name: 'app_movies_delete', methods: ['DELETE'])]
