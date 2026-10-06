@@ -17,5 +17,9 @@ class MovieDTO
 
         #[Assert\Range(min: 1888, max: 2100)]
         public int $releaseDate,
+
+        /** @var int[] */
+        #[Assert\All([new Assert\Type('integer'), new Assert\Positive()])]
+        public array $categoryIds = [],
     ) {}
 }
