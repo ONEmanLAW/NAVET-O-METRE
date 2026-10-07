@@ -9,7 +9,7 @@ class MoviesControllerTest extends WebTestCase
 {
     public function testWithoutQueryParameter() {
         $client = static::createClient();
-        $client->request('GET', '/message');
+        $client->request('GET', '/api/message');
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -21,7 +21,7 @@ class MoviesControllerTest extends WebTestCase
 
     public function testWithMultipleQueryParameters() {
         $client = static::createClient();
-        $client->request('GET', '/message?message=Hello&other=test');
+        $client->request('GET', '/api/message?message=Hello&other=test');
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 

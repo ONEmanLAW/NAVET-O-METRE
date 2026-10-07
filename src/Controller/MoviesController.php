@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/api')]
 final class MoviesController extends AbstractController
 {
     #[Route('/message', name: 'app_message')]

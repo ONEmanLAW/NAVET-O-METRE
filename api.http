@@ -7,56 +7,56 @@
 
 
 ### Tous les films
-GET {{baseURL}}/movies
+GET {{baseURL}}/api/movies
 Accept: application/json
 
 
 
 ### Un film
-GET {{baseURL}}/movies/1
+GET {{baseURL}}/api/movies/1
 Accept: application/json
 
 
 
 ### Film inexistant : 404
-GET {{baseURL}}/movies/999
+GET {{baseURL}}/api/movies/999
 Accept: application/json
 
 
 
 ### Filtre titre
-GET {{baseURL}}/movies?title=my
+GET {{baseURL}}/api/movies?title=my
 Accept: application/json
 
 
 
 ### Filtre année
-GET {{baseURL}}/movies?year=2026
+GET {{baseURL}}/api/movies?year=2026
 Accept: application/json
 
 
 
 ### Filtre titre + année
-GET {{baseURL}}/movies?title=my&year=2026
+GET {{baseURL}}/api/movies?title=my&year=2026
 Accept: application/json
 
 
 
 ### Pagination
-GET {{baseURL}}/movies?page=2&limit=1
+GET {{baseURL}}/api/movies?page=2&limit=1
 Accept: application/json
 
 
 
 ### Filtre + pagination
-GET {{baseURL}}/movies?title=o&page=2&limit=1
+GET {{baseURL}}/api/movies?title=o&page=2&limit=1
 Accept: application/json
 
 
 
 ### Créer un film avec des catégories
 # @name createMovie
-POST {{baseURL}}/movies
+POST {{baseURL}}/api/movies
 Content-Type: application/json
 Accept: application/json
 
@@ -70,7 +70,7 @@ Accept: application/json
 
 
 ### Créer un film invalide : 422
-POST {{baseURL}}/movies
+POST {{baseURL}}/api/movies
 Content-Type: application/json
 Accept: application/json
 
@@ -83,7 +83,7 @@ Accept: application/json
 
 
 ### Créer un film avec une catégorie inexistante : 422
-POST {{baseURL}}/movies
+POST {{baseURL}}/api/movies
 Content-Type: application/json
 Accept: application/json
 
@@ -97,7 +97,7 @@ Accept: application/json
 
 
 ### Modifier le film créé
-PUT {{baseURL}}/movies/{{createMovie.id}}
+PUT {{baseURL}}/api/movies/{{createMovie.id}}
 Content-Type: application/json
 Accept: application/json
 
@@ -111,7 +111,7 @@ Accept: application/json
 
 
 ### Supprimer le film créé
-DELETE {{baseURL}}/movies/{{createMovie.id}}
+DELETE {{baseURL}}/api/movies/{{createMovie.id}}
 Accept: application/json
 
 
@@ -121,26 +121,26 @@ Accept: application/json
 
 
 ### Toutes les catégories
-GET {{baseURL}}/categories
+GET {{baseURL}}/api/categories
 Accept: application/json
 
 
 
 ### Une catégorie
-GET {{baseURL}}/categories/1
+GET {{baseURL}}/api/categories/1
 Accept: application/json
 
 
 
 ### Catégorie inexistante : 404
-GET {{baseURL}}/categories/999
+GET {{baseURL}}/api/categories/999
 Accept: application/json
 
 
 
 ### Créer une catégorie
 # @name createCategory
-POST {{baseURL}}/categories
+POST {{baseURL}}/api/categories
 Content-Type: application/json
 Accept: application/json
 
@@ -151,7 +151,7 @@ Accept: application/json
 
 
 ### Créer une catégorie invalide : 422
-POST {{baseURL}}/categories
+POST {{baseURL}}/api/categories
 Content-Type: application/json
 Accept: application/json
 
@@ -162,7 +162,7 @@ Accept: application/json
 
 
 ### Modifier la catégorie créée
-PUT {{baseURL}}/categories/{{createCategory.id}}
+PUT {{baseURL}}/api/categories/{{createCategory.id}}
 Content-Type: application/json
 Accept: application/json
 
@@ -173,7 +173,7 @@ Accept: application/json
 
 
 ### Supprimer la catégorie créée
-DELETE {{baseURL}}/categories/{{createCategory.id}}
+DELETE {{baseURL}}/api/categories/{{createCategory.id}}
 Accept: application/json
 
 
@@ -183,7 +183,7 @@ Accept: application/json
 
 
 ### Message
-GET {{baseURL}}/message?message=hello
+GET {{baseURL}}/api/message?message=hello
 Accept: application/json
 
 
@@ -198,3 +198,70 @@ Content-Type: application/json
   "password": "password"
 }
 > {% client.global.set("token",response.body.token); %}
+
+
+### ==================== NOTES ====================
+// Lancer "Authenticate" d'abord : Utilise le token
+
+
+
+### Noter le film 1 (201 la 1re fois, 200 si on renote)
+PUT {{baseURL}}/api/movies/1/rating
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "score": 8
+}
+
+
+
+### Note invalide : 422
+PUT {{baseURL}}/api/movies/1/rating
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "score": 11
+}
+
+
+
+### Noter sans être connecté : 401
+PUT {{baseURL}}/api/movies/1/rating
+Content-Type: application/json
+Accept: application/json
+
+{
+  "score": 8
+}
+
+
+
+### Voir ma note sur le film 1 (404 si pas encore noté)
+GET {{baseURL}}/api/movies/1/rating
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### Supprimer ma note sur le film 1
+DELETE {{baseURL}}/api/movies/1/rating
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### Mon feed : mes dernières notes
+GET {{baseURL}}/api/me/ratings?page=1&limit=10
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### Listing des films connecté : chaque film a "myRating"
+GET {{baseURL}}/api/movies
+Accept: application/json
+Authorization: Bearer {{token}}
