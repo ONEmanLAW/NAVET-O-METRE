@@ -23,6 +23,28 @@ async function loadMovies() {
     lastPage.value = data.lastPage;
 }
 
+async function rate(movie, score) {
+    const removing = score === movie.myRating;
+
+    const response = await fetch(`${props.moviesUrl}/${movie.id}/rating`, {
+        method: removing ? "DELETE" : "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: removing ? null : JSON.stringify({ score }),
+    });
+
+    if (response.status === 401) {
+        emit("logout");
+        return;
+    }
+
+    if (response.ok) {
+        movie.myRating = removing ? null : score;
+    }
+}
+
 function goTo(newPage) {
     page.value = newPage;
     loadMovies();
@@ -41,7 +63,9 @@ onMounted(loadMovies);
     <ul>
         <li v-for="movie in movies" :key="movie.id">
             <strong>{{ movie.title }}</strong> ({{ movie.releaseDate }})
-            <span v-if="movie.myRating !== null"> - ma note : {{ movie.myRating }}/10</span>
+            <div>
+                <span v-for="n in 10" :key="n" @click="rate(movie, n)">{{ n <= movie.myRating ? "★" : "☆" }}</span>
+            </div>
         </li>
     </ul>
 
