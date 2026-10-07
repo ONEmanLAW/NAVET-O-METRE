@@ -1,3 +1,6 @@
 import "./app.css";
+import { createApp } from "vue";
+import App from "./App.vue";
 
-console.log("Happy coding !!");
+const el = document.getElementById("app");
+createApp(App, { loginUrl: el.dataset.loginUrl }).mount(el);
