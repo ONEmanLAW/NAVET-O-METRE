@@ -38,10 +38,17 @@ class Movie
     #[Ignore]
     private Collection $ratings;
 
+    /**
+     * @var Collection<int, Actor>
+     */
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'movies')]
+    private Collection $actors;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->ratings = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,5 +122,32 @@ class Movie
     public function getRatings(): Collection
     {
         return $this->ratings;
+    }
+
+    /**
+     * @return Collection<int, Actor>
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): static
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors->add($actor);
+            $actor->addMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): static
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeMovie($this);
+        }
+
+        return $this;
     }
 }
