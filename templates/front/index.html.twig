@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}TheFilmApp{% endblock %}
 
 {% block body %}
-    <div id="app" data-login-url="{{ path('api_login_check') }}"></div>
+    <div id="app"
+         data-login-url="{{ path('api_login_check') }}"
+         data-movies-url="{{ path('app_movies_list') }}"></div>
 {% endblock %}

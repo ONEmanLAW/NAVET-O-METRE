@@ -1,34 +1,26 @@
 <script setup>
 import { ref } from "vue";
+import Login from "./components/Login.vue";
+import Movies from "./components/Movies.vue";
 
-const props = defineProps({ loginUrl: String });
+defineProps({ loginUrl: String, moviesUrl: String });
 
-const email = ref("");
-const password = ref("");
-const message = ref("");
+const user = ref(JSON.parse(localStorage.getItem("user")));
 
-async function login() {
-    const response = await fetch(props.loginUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.value, password: password.value }),
-    });
-    const data = await response.json();
+function login(data) {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    user.value = data.user;
+}
 
-    if (response.ok) {
-        localStorage.setItem("token", data.token);
-        message.value = `Connecté en tant que ${data.user.email}`;
-    } else {
-        message.value = data.message;
-    }
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    user.value = null;
 }
 </script>
 
 <template>
-    <form @submit.prevent="login">
-        <input v-model="email" type="email" placeholder="Email">
-        <input v-model="password" type="password" placeholder="Mot de passe">
-        <button>Se connecter</button>
-    </form>
-    <p>{{ message }}</p>
+    <Movies v-if="user" :user="user" :movies-url="moviesUrl" @logout="logout" />
+    <Login v-else :login-url="loginUrl" @login="login" />
 </template>
