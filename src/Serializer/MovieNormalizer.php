@@ -9,9 +9,6 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * Ajoute "myRating" à chaque film : la note de l'utilisateur connecté, ou null.
- */
 class MovieNormalizer implements NormalizerInterface
 {
     public function __construct(
