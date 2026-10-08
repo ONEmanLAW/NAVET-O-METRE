@@ -4,6 +4,10 @@
 
 {% block body %}
     <main class="card">
+        <div class="brand">
+            <img src="{{ asset('navetometre.svg') }}" alt="">
+            NAVET-O-METRE
+        </div>
         <form method="post" action="{{ path('app_security_login') }}">
             <h1>ADMIN connexion</h1>
             <input type="email" name="_username" placeholder="Email" aria-label="Email" autocomplete="email" required autofocus>

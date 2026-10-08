@@ -5,6 +5,7 @@ import App from "./App.vue";
 const el = document.getElementById("app");
 if (el) {
     createApp(App, {
+        logoUrl: el.dataset.logoUrl,
         loginUrl: el.dataset.loginUrl,
         adminUrl: el.dataset.adminUrl,
         adminConnectUrl: el.dataset.adminConnectUrl,

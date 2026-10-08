@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TheFilmApp{% endblock %}
+{% block title %}NAVET-O-METRE{% endblock %}
 
 {% block body %}
     <div id="app"
+         data-logo-url="{{ asset('navetometre.svg') }}"
          data-login-url="{{ path('api_login_check') }}"
          data-admin-url="{{ path('admin') }}"
          data-admin-connect-url="{{ path('app_security_connect') }}"

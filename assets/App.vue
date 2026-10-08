@@ -6,6 +6,7 @@ import Movies from "./components/Movies.vue";
 import Users from "./components/Users.vue";
 
 const props = defineProps({
+    logoUrl: String,
     loginUrl: String,
     adminUrl: String,
     adminConnectUrl: String,
@@ -46,6 +47,11 @@ function logout() {
 </script>
 
 <template>
+    <div class="brand">
+        <img :src="logoUrl" alt="">
+        NAVET-O-METRE
+    </div>
+
     <template v-if="user">
         <header>
             <span>Connecté en tant que {{ user.email }}</span>

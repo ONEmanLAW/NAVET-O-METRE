@@ -1,4 +1,4 @@
-# TheFilmApp
+# NAVET-O-METRE
 
 Un SensCritique fait maison : chercher et noter des films, suivre tes potes et juger leurs goûts en silence.
 

@@ -1,5 +1,5 @@
 api_platform:
-    title: TheFilmApp API
+    title: NAVET-O-METRE API
     version: 1.0.0
     defaults:
         stateless: true

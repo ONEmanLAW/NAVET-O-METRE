@@ -32,7 +32,8 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('TheFilmApp Admin');
+            ->setTitle('NAVET-O-METRE Admin')
+            ->setFaviconPath('navetometre.svg');
     }
 
     public function configureMenuItems(): iterable
