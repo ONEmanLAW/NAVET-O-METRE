@@ -61,6 +61,7 @@ class ImportMoviesCommand
             $movie->setTitle($movieData['title']);
             $movie->setDescription($movieData['plot'] ?? '');
             $movie->setReleaseDate((int) (is_array($year) ? $year['$numberInt'] : $year));
+            $movie->setPoster($movieData['poster'] ?? null);
 
             foreach ($movieData['genres'] ?? [] as $genre) {
                 $movie->addCategory($this->getCategory($genre));

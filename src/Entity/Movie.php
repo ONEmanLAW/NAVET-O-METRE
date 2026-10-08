@@ -30,6 +30,9 @@ class Movie
     #[ORM\Column]
     private ?int $releaseDate = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $poster = null;
+
     /**
      * @var Collection<int, Category>
      */
@@ -93,6 +96,18 @@ class Movie
     public function setReleaseDate(int $releaseDate): static
     {
         $this->releaseDate = $releaseDate;
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(?string $poster): static
+    {
+        $this->poster = $poster;
 
         return $this;
     }
