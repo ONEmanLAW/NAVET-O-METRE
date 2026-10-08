@@ -58,3 +58,19 @@ Authorization: Bearer {{loginUser.token}}
 DELETE {{baseURL}}/api/users/{{loginUser.user.id}}/follow
 Accept: application/json
 Authorization: Bearer {{login.token}}
+
+
+
+### Les comptes que je suis (admin@admin.com)
+# @ref login
+GET {{baseURL}}/api/me/following
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+
+
+### Les comptes qui me suivent (admin@admin.com)
+# @ref login
+GET {{baseURL}}/api/me/followers
+Accept: application/json
+Authorization: Bearer {{login.token}}

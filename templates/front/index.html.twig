@@ -6,5 +6,8 @@
     <div id="app"
          data-login-url="{{ path('api_login_check') }}"
          data-register-url="{{ path('app_registration_register') }}"
+         data-users-url="{{ path('app_users_list') }}"
+         data-following-url="{{ path('app_follows_following') }}"
+         data-followers-url="{{ path('app_follows_followers') }}"
          data-movies-url="{{ path('app_movies_list') }}"></div>
 {% endblock %}

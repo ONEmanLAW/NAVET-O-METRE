@@ -44,15 +44,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: self::class)]
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
     #[ORM\JoinTable(name: 'user_following')]
     #[ORM\JoinColumn(name: 'follower_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'followed_id', onDelete: 'CASCADE')]
     private Collection $following;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
+    private Collection $followers;
+
     public function __construct()
     {
         $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +132,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFollowing(): Collection
     {
         return $this->following;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
     }
 
     public function follow(User $user): static

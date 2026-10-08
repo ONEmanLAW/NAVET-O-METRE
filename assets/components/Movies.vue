@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const props = defineProps({ user: Object, moviesUrl: String });
+const props = defineProps({ moviesUrl: String });
 const emit = defineEmits(["logout"]);
 
 const movies = ref([]);
@@ -54,11 +54,6 @@ onMounted(loadMovies);
 </script>
 
 <template>
-    <header>
-        <span>Connecté en tant que {{ user.email }}</span>
-        <button @click="emit('logout')">Se déconnecter</button>
-    </header>
-
     <h1>Films</h1>
     <ul>
         <li v-for="movie in movies" :key="movie.id">

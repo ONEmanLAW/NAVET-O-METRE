@@ -7,4 +7,7 @@ createApp(App, {
     loginUrl: el.dataset.loginUrl,
     registerUrl: el.dataset.registerUrl,
     moviesUrl: el.dataset.moviesUrl,
+    usersUrl: el.dataset.usersUrl,
+    followingUrl: el.dataset.followingUrl,
+    followersUrl: el.dataset.followersUrl,
 }).mount(el);

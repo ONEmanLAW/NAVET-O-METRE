@@ -45,4 +45,16 @@ final class FollowsController extends AbstractController
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    #[Route('/me/following', name: 'app_follows_following', methods: ['GET'])]
+    public function following(#[CurrentUser] User $user): JsonResponse
+    {
+        return $this->json($user->getFollowing()->getValues(), Response::HTTP_OK, [], ['groups' => ['user:read']]);
+    }
+
+    #[Route('/me/followers', name: 'app_follows_followers', methods: ['GET'])]
+    public function followers(#[CurrentUser] User $user): JsonResponse
+    {
+        return $this->json($user->getFollowers()->getValues(), Response::HTTP_OK, [], ['groups' => ['user:read']]);
+    }
 }

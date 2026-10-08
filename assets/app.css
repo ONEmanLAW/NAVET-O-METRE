@@ -37,3 +37,25 @@ button {
 li span {
     cursor: pointer;
 }
+
+header,
+.users li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.users li {
+    padding: 6px 0;
+}
+
+button.secondary {
+    background-color: #9ca3af;
+}

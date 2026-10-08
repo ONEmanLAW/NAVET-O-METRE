@@ -71,3 +71,11 @@ Content-Type: application/json
   "email": "user@user.com",
   "password": "password"
 }
+
+
+
+### Lister les utilisateurs
+# @ref login
+GET {{baseURL}}/api/users
+Accept: application/json
+Authorization: Bearer {{login.token}}
