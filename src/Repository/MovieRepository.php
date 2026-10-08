@@ -21,7 +21,8 @@ class MovieRepository extends ServiceEntityRepository
     public function createFilteredQueryBuilder(MovieFilterDTO $filters): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('m')
-            ->orderBy('m.id', 'ASC');
+            ->orderBy('m.title', 'ASC')
+            ->addOrderBy('m.id', 'ASC');
 
         if ($filters->title !== null) {
             $queryBuilder
