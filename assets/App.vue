@@ -68,7 +68,7 @@ function logout() {
     </header>
 
     <main v-if="user">
-        <Movies v-if="tab === 'movies'" :movies-url="moviesUrl" @logout="logout" />
+        <Movies v-if="tab === 'movies'" :movies-url="moviesUrl" :logo-url="logoUrl" @logout="logout" />
         <Users
             v-else
             :user="user"

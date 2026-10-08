@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const props = defineProps({ moviesUrl: String });
+const props = defineProps({ moviesUrl: String, logoUrl: String });
 const emit = defineEmits(["logout"]);
 
 const movies = ref([]);
@@ -11,6 +11,30 @@ const total = ref(0);
 const title = ref("");
 const year = ref("");
 const loading = ref(false);
+const hovered = ref(null);
+
+const VERDICTS = [
+    "Navet intergalactique",
+    "Navet de compétition",
+    "Navet bien mûr",
+    "Presque comestible",
+    "Bof bof",
+    "Ça passe un dimanche",
+    "Tes potes valident",
+    "Validé par le navet",
+    "Le navet s'incline",
+    "Le roi du potager",
+];
+
+function shownScore(movie) {
+    return hovered.value?.movieId === movie.id ? hovered.value.score : movie.myRating;
+}
+
+function verdict(movie) {
+    const score = shownScore(movie);
+
+    return score ? VERDICTS[score - 1] : "Pas encore jugé";
+}
 
 async function loadMovies() {
     const params = new URLSearchParams({ page: page.value, limit: 24 });
@@ -89,8 +113,21 @@ onMounted(loadMovies);
             <div v-else class="no-poster">Pas d'affiche</div>
             <strong>{{ movie.title }}</strong>
             <small>{{ movie.releaseDate }}</small>
-            <div class="stars">
-                <span v-for="n in 10" :key="n" @click="rate(movie, n)">{{ n <= movie.myRating ? "★" : "☆" }}</span>
+            <div class="rating">
+                <div class="navets" @mouseleave="hovered = null">
+                    <button
+                        v-for="n in 10"
+                        :key="n"
+                        type="button"
+                        :class="{ filled: n <= shownScore(movie) }"
+                        :aria-label="`Noter ${n} sur 10`"
+                        @mouseenter="hovered = { movieId: movie.id, score: n }"
+                        @click="rate(movie, n)"
+                    >
+                        <img :src="logoUrl" alt="">
+                    </button>
+                </div>
+                <small class="verdict">{{ verdict(movie) }}</small>
             </div>
         </li>
     </ul>
