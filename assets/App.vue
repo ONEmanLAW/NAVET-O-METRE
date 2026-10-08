@@ -21,6 +21,25 @@ const props = defineProps({
 const user = ref(JSON.parse(localStorage.getItem("user")));
 const page = ref("login");
 const tab = ref("movies");
+const logoClicks = ref(0);
+const logoMessage = ref("");
+
+const LOGO_INSULTS = [
+    "#@!%& de radis ! Arrête de me cliquer !",
+    "Espèce de topinambour &%#@ !",
+    "Encore un clic et je te mets 1/10, @#!$ !",
+    "Retourne noter tes films, %@#! d'endive !",
+    "Touche-moi encore et je finis en soupe, #@&% !",
+];
+
+function pokeLogo() {
+    logoClicks.value++;
+    if (logoClicks.value < 5) return;
+
+    logoClicks.value = 0;
+    logoMessage.value = LOGO_INSULTS[Math.floor(Math.random() * LOGO_INSULTS.length)];
+    setTimeout(() => (logoMessage.value = ""), 3000);
+}
 
 function login(data) {
     localStorage.setItem("token", data.token);
@@ -49,8 +68,11 @@ function logout() {
 <template>
     <header class="topbar">
         <div class="brand">
-            <img :src="logoUrl" alt="">
+            <button type="button" class="logo" :class="{ spin: logoMessage }" aria-label="Navet" @click="pokeLogo">
+                <img :src="logoUrl" alt="">
+            </button>
             NAVET-O-METRE
+            <span class="bubble" role="status"><img v-if="logoMessage" :src="logoUrl" alt="">{{ logoMessage }}</span>
         </div>
 
         <template v-if="user">

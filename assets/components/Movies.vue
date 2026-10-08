@@ -12,6 +12,23 @@ const title = ref("");
 const year = ref("");
 const loading = ref(false);
 const hovered = ref(null);
+const showers = ref([]);
+let nextShowerId = 0;
+
+// Each 10/10 adds its own shower, so several in a row keep the rain going.
+function celebrate() {
+    const shower = {
+        id: nextShowerId++,
+        drops: Array.from({ length: 30 }, () => ({
+            left: Math.random() * 100,
+            delay: Math.random() * 1.5,
+            size: 24 + Math.random() * 24,
+        })),
+    };
+
+    showers.value.push(shower);
+    setTimeout(() => (showers.value = showers.value.filter((other) => other !== shower)), 3500);
+}
 
 const VERDICTS = [
     "Navet intergalactique",
@@ -83,6 +100,10 @@ async function rate(movie, score) {
     if (response.ok) {
         movie.myRating = removing ? null : score;
     }
+
+    if (response.ok && !removing && score === 10) {
+        celebrate();
+    }
 }
 
 function goTo(newPage) {
@@ -109,8 +130,11 @@ onMounted(loadMovies);
 
     <ul class="movies" :aria-busy="loading">
         <li v-for="movie in movies" :key="movie.id">
-            <img v-if="movie.poster" :src="movie.poster" :alt="`Affiche de ${movie.title}`" loading="lazy" @error="movie.poster = null">
-            <div v-else class="no-poster">Pas d'affiche</div>
+            <div class="poster">
+                <img v-if="movie.poster" :src="movie.poster" :alt="`Affiche de ${movie.title}`" loading="lazy" @error="movie.poster = null">
+                <div v-else class="no-poster">Pas d'affiche</div>
+                <span v-if="movie.myRating === 1" class="stamp">Navet certifié</span>
+            </div>
             <strong>{{ movie.title }}</strong>
             <small>{{ movie.releaseDate }}</small>
             <div class="rating">
@@ -131,6 +155,18 @@ onMounted(loadMovies);
             </div>
         </li>
     </ul>
+
+    <div v-if="showers.length" class="rain" aria-hidden="true">
+        <template v-for="shower in showers" :key="shower.id">
+            <img
+                v-for="(drop, index) in shower.drops"
+                :key="index"
+                :src="logoUrl"
+                alt=""
+                :style="{ left: `${drop.left}%`, width: `${drop.size}px`, animationDelay: `${drop.delay}s` }"
+            >
+        </template>
+    </div>
 
     <nav v-if="lastPage > 1" class="pagination">
         <button class="secondary" :disabled="page === 1" @click="goTo(page - 1)">Précédent</button>
