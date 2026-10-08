@@ -68,7 +68,7 @@ onMounted(loadMovies);
         </li>
     </ul>
 
-    <nav>
+    <nav class="pagination">
         <button :disabled="page === 1" @click="goTo(page - 1)">Précédent</button>
         <span>Page {{ page }} / {{ lastPage }}</span>
         <button :disabled="page === lastPage" @click="goTo(page + 1)">Suivant</button>

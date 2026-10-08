@@ -31,5 +31,5 @@ async function register() {
         <button>S'inscrire</button>
     </form>
     <p>{{ message }}</p>
-    <p>Déjà un compte ? <button type="button" @click="emit('showLogin')">Se connecter</button></p>
+    <p>Déjà un compte ? <button type="button" class="link" @click="emit('showLogin')">Se connecter</button></p>
 </template>

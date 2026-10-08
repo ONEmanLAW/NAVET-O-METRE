@@ -32,5 +32,5 @@ async function login() {
         <button>Se connecter</button>
     </form>
     <p>{{ message }}</p>
-    <p>Pas encore de compte ? <button type="button" @click="emit('showRegister')">S'inscrire</button></p>
+    <p>Pas encore de compte ? <button type="button" class="link" @click="emit('showRegister')">S'inscrire</button></p>
 </template>
