@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 const props = defineProps({ loginUrl: String });
-const emit = defineEmits(["login"]);
+const emit = defineEmits(["login", "showRegister"]);
 
 const email = ref("");
 const password = ref("");
@@ -32,4 +32,5 @@ async function login() {
         <button>Se connecter</button>
     </form>
     <p>{{ message }}</p>
+    <p>Pas encore de compte ? <button type="button" @click="emit('showRegister')">S'inscrire</button></p>
 </template>

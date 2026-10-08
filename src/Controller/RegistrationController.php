@@ -24,6 +24,7 @@ final class RegistrationController extends AbstractController
     {
         $user = new User();
         $user->setEmail($registrationDTO->email);
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword($passwordHasher->hashPassword($user, $registrationDTO->password));
 
         $entityManager->persist($user);

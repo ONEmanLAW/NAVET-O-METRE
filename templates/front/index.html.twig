@@ -5,5 +5,6 @@
 {% block body %}
     <div id="app"
          data-login-url="{{ path('api_login_check') }}"
+         data-register-url="{{ path('app_registration_register') }}"
          data-movies-url="{{ path('app_movies_list') }}"></div>
 {% endblock %}
