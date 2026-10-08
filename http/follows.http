@@ -1,0 +1,60 @@
+# @import ./users.http
+
+
+
+### user@user.com suit admin@admin.com (204)
+# @ref login
+# @ref loginUser
+PUT {{baseURL}}/api/users/{{login.user.id}}/follow
+Accept: application/json
+Authorization: Bearer {{loginUser.token}}
+
+
+
+### admin@admin.com suit user@user.com (204)
+# @ref login
+# @ref loginUser
+PUT {{baseURL}}/api/users/{{loginUser.user.id}}/follow
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+
+
+### Se suivre soi-même : 422
+# @ref login
+PUT {{baseURL}}/api/users/{{login.user.id}}/follow
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+
+
+### Suivre un utilisateur inexistant : 404
+# @ref login
+PUT {{baseURL}}/api/users/999999/follow
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+
+
+### Suivre sans être connecté : 401
+# @ref login
+PUT {{baseURL}}/api/users/{{login.user.id}}/follow
+Accept: application/json
+
+
+
+### user@user.com ne suit plus admin@admin.com (204)
+# @ref login
+# @ref loginUser
+DELETE {{baseURL}}/api/users/{{login.user.id}}/follow
+Accept: application/json
+Authorization: Bearer {{loginUser.token}}
+
+
+
+### admin@admin.com ne suit plus user@user.com (204)
+# @ref login
+# @ref loginUser
+DELETE {{baseURL}}/api/users/{{loginUser.user.id}}/follow
+Accept: application/json
+Authorization: Bearer {{login.token}}

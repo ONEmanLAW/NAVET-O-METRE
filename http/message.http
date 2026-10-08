@@ -1,0 +1,7 @@
+# @import ./users.http
+
+
+
+### Message
+GET {{baseURL}}/api/message?message=hello
+Accept: application/json

@@ -1,0 +1,59 @@
+# @import ./users.http
+
+
+
+### Toutes les catégories
+GET {{baseURL}}/api/categories
+Accept: application/json
+
+
+
+### Une catégorie
+GET {{baseURL}}/api/categories/1
+Accept: application/json
+
+
+
+### Catégorie inexistante : 404
+GET {{baseURL}}/api/categories/999
+Accept: application/json
+
+
+
+### Créer une catégorie
+# @name createCategory
+POST {{baseURL}}/api/categories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Action"
+}
+
+
+
+### Créer une catégorie invalide : 422
+POST {{baseURL}}/api/categories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": ""
+}
+
+
+
+### Modifier la catégorie créée
+PUT {{baseURL}}/api/categories/{{createCategory.id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Action / Aventure"
+}
+
+
+
+### Supprimer la catégorie créée
+DELETE {{baseURL}}/api/categories/{{createCategory.id}}
+Accept: application/json

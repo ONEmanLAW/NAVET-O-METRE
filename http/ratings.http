@@ -1,0 +1,70 @@
+# @import ./users.http
+
+
+
+### Noter le film 1 (201 la 1re fois, 200 si on renote)
+# @ref login
+PUT {{baseURL}}/api/movies/1/rating
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+{
+  "score": 8
+}
+
+
+
+### Note invalide : 422
+# @ref login
+PUT {{baseURL}}/api/movies/1/rating
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+{
+  "score": 11
+}
+
+
+
+### Noter sans être connecté : 401
+PUT {{baseURL}}/api/movies/1/rating
+Content-Type: application/json
+Accept: application/json
+
+{
+  "score": 8
+}
+
+
+
+### Voir ma note sur le film 1 (404 si pas encore noté)
+# @ref login
+GET {{baseURL}}/api/movies/1/rating
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+
+
+### Supprimer ma note sur le film 1
+# @ref login
+DELETE {{baseURL}}/api/movies/1/rating
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+
+
+### Mon feed : mes dernières notes
+# @ref login
+GET {{baseURL}}/api/me/ratings?page=1&limit=10
+Accept: application/json
+Authorization: Bearer {{login.token}}
+
+
+
+### Listing des films connecté : chaque film a "myRating"
+# @ref login
+GET {{baseURL}}/api/movies
+Accept: application/json
+Authorization: Bearer {{login.token}}

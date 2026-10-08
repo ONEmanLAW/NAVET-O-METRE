@@ -1,0 +1,73 @@
+@baseURL = http://127.0.0.1:8000
+
+
+
+### Créer le compte admin@admin.com (201 la 1re fois, 422 ensuite)
+POST {{baseURL}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "password"
+}
+
+
+
+### Créer le compte user@user.com (201 la 1re fois, 422 ensuite)
+POST {{baseURL}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@user.com",
+  "password": "password"
+}
+
+
+
+### Créer un nouveau compte (email différent à chaque fois)
+POST {{baseURL}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user{{$timestamp}}@user.com",
+  "password": "password"
+}
+
+
+
+### Créer un compte invalide : 422
+POST {{baseURL}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "pas-un-email",
+  "password": "court"
+}
+
+
+
+### Se connecter en admin@admin.com
+# @name login
+POST {{baseURL}}/api/login_check
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "password"
+}
+
+
+
+### Se connecter en user@user.com
+# @name loginUser
+POST {{baseURL}}/api/login_check
+Content-Type: application/json
+
+{
+  "email": "user@user.com",
+  "password": "password"
+}
