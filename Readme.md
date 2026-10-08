@@ -1,6 +1,6 @@
 # TheFilmApp
 
-Une app pour chercher, noter des films et suivre d'autres utilisateurs.
+Un SensCritique fait maison : chercher et noter des films, suivre tes potes et juger leurs goûts en silence.
 
 ## Ce qu'il y a dans le projet
 
