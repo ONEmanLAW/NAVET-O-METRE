@@ -188,13 +188,26 @@ Accept: application/json
 
 
 ### ==================== USERS ====================
-### Créer un compte (422 si l'email existe déjà)
+### Créer un nouveau compte /  aussi email différent à chaque fois
+# @name newUser
 POST {{baseURL}}/api/register
 Content-Type: application/json
 Accept: application/json
 
 {
-  "email": "user@user.com",
+  "email": "user{{$timestamp}}@user.com",
+  "password": "password"
+}
+
+
+
+### Créer un compte avec un email déjà pris : 422
+POST {{baseURL}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "admin@admin.com",
   "password": "password"
 }
 
@@ -221,6 +234,7 @@ Content-Type: application/json
   "email": "admin@admin.com",
   "password": "password"
 }
+
 > {% client.global.set("token",response.body.token); %}
 
 
@@ -287,5 +301,63 @@ Authorization: Bearer {{token}}
 
 ### Listing des films connecté : chaque film a "myRating"
 GET {{baseURL}}/api/movies
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### ==================== FOLLOWERS ====================
+// Lancer "Authenticate" (admin) et "Créer un nouveau compte" d'abord
+
+
+
+### Se connecter avec le compte créé
+# @name loginNewUser
+POST {{baseURL}}/api/login_check
+Content-Type: application/json
+
+{
+  "email": "{{newUser.email}}",
+  "password": "password"
+}
+
+
+
+### L'admin suit le compte créé (204)
+PUT {{baseURL}}/api/users/{{newUser.id}}/follow
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### Le compte créé suit l'admin (204)
+PUT {{baseURL}}/api/users/{{login.user.id}}/follow
+Accept: application/json
+Authorization: Bearer {{loginNewUser.token}}
+
+
+
+### Se suivre soi-même : 422
+PUT {{baseURL}}/api/users/{{login.user.id}}/follow
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### Suivre un utilisateur inexistant : 404
+PUT {{baseURL}}/api/users/999999/follow
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### Suivre sans être connecté : 401
+PUT {{baseURL}}/api/users/{{newUser.id}}/follow
+Accept: application/json
+
+
+
+### L'admin ne suit plus le compte créé (204)
+DELETE {{baseURL}}/api/users/{{newUser.id}}/follow
 Accept: application/json
 Authorization: Bearer {{token}}
