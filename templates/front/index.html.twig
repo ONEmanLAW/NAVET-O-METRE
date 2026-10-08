@@ -5,6 +5,9 @@
 {% block body %}
     <div id="app"
          data-login-url="{{ path('api_login_check') }}"
+         data-admin-url="{{ path('admin') }}"
+         data-admin-connect-url="{{ path('app_security_connect') }}"
+         data-admin-logout-url="{{ logout_path('main') }}"
          data-register-url="{{ path('app_registration_register') }}"
          data-users-url="{{ path('app_users_list') }}"
          data-following-url="{{ path('app_follows_following') }}"

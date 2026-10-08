@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN connexion{% endblock %}
+
+{% block body %}
+    <main class="card">
+        <form method="post" action="{{ path('app_security_login') }}">
+            <h1>ADMIN connexion</h1>
+            <input type="email" name="_username" placeholder="Email" aria-label="Email" autocomplete="email" required autofocus>
+            <input type="password" name="_password" placeholder="Mot de passe" aria-label="Mot de passe" autocomplete="current-password" required>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_target_path" value="{{ path('admin') }}">
+            <button>Se connecter</button>
+        </form>
+        {% if error %}
+            <p>Identifiants incorrects ou pas un compte admin.</p>
+        {% endif %}
+    </main>
+{% endblock %}

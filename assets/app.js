@@ -3,11 +3,16 @@ import { createApp } from "vue";
 import App from "./App.vue";
 
 const el = document.getElementById("app");
-createApp(App, {
-    loginUrl: el.dataset.loginUrl,
-    registerUrl: el.dataset.registerUrl,
-    moviesUrl: el.dataset.moviesUrl,
-    usersUrl: el.dataset.usersUrl,
-    followingUrl: el.dataset.followingUrl,
-    followersUrl: el.dataset.followersUrl,
-}).mount(el);
+if (el) {
+    createApp(App, {
+        loginUrl: el.dataset.loginUrl,
+        adminUrl: el.dataset.adminUrl,
+        adminConnectUrl: el.dataset.adminConnectUrl,
+        adminLogoutUrl: el.dataset.adminLogoutUrl,
+        registerUrl: el.dataset.registerUrl,
+        moviesUrl: el.dataset.moviesUrl,
+        usersUrl: el.dataset.usersUrl,
+        followingUrl: el.dataset.followingUrl,
+        followersUrl: el.dataset.followersUrl,
+    }).mount(el);
+}

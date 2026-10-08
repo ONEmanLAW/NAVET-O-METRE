@@ -1,0 +1,18 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Tableau de bord{% endblock %}
+
+{% block main %}
+    <div class="row">
+        {% for label, count in {'Films': moviesCount, 'Utilisateurs': usersCount, 'Notes': ratingsCount} %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ count|number_format(0, ',', ' ') }}</h2>
+                        <p class="card-text">{{ label }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

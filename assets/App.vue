@@ -5,8 +5,11 @@ import Register from "./components/Register.vue";
 import Movies from "./components/Movies.vue";
 import Users from "./components/Users.vue";
 
-defineProps({
+const props = defineProps({
     loginUrl: String,
+    adminUrl: String,
+    adminConnectUrl: String,
+    adminLogoutUrl: String,
     registerUrl: String,
     moviesUrl: String,
     usersUrl: String,
@@ -24,7 +27,16 @@ function login(data) {
     user.value = data.user;
 }
 
+async function openAdmin() {
+    await fetch(props.adminConnectUrl, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    window.location.href = props.adminUrl;
+}
+
 function logout() {
+    fetch(props.adminLogoutUrl);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     user.value = null;
@@ -37,6 +49,7 @@ function logout() {
     <template v-if="user">
         <header>
             <span>Connecté en tant que {{ user.email }}</span>
+            <a v-if="user.roles.includes('ROLE_ADMIN')" :href="adminUrl" @click.prevent="openAdmin">Administration</a>
             <button @click="logout">Se déconnecter</button>
         </header>
 

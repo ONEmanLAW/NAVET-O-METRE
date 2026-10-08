@@ -3,7 +3,8 @@ body {
     background-color: #eeeeee;
 }
 
-#app {
+#app,
+.card {
     max-width: 600px;
     margin: 100px auto;
     padding: 20px;
