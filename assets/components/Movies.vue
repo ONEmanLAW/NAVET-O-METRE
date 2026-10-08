@@ -55,11 +55,15 @@ onMounted(loadMovies);
 
 <template>
     <h1>Films</h1>
-    <ul>
+    <ul class="movies">
         <li v-for="movie in movies" :key="movie.id">
-            <strong>{{ movie.title }}</strong> ({{ movie.releaseDate }})
+            <img v-if="movie.poster" :src="movie.poster" :alt="`Affiche de ${movie.title}`" loading="lazy" @error="movie.poster = null">
+            <div v-else class="no-poster">Pas d'affiche</div>
             <div>
-                <span v-for="n in 10" :key="n" @click="rate(movie, n)">{{ n <= movie.myRating ? "★" : "☆" }}</span>
+                <strong>{{ movie.title }}</strong> ({{ movie.releaseDate }})
+                <div>
+                    <span v-for="n in 10" :key="n" @click="rate(movie, n)">{{ n <= movie.myRating ? "★" : "☆" }}</span>
+                </div>
             </div>
         </li>
     </ul>
