@@ -47,23 +47,27 @@ function logout() {
 </script>
 
 <template>
-    <div class="brand">
-        <img :src="logoUrl" alt="">
-        NAVET-O-METRE
-    </div>
+    <header class="topbar">
+        <div class="brand">
+            <img :src="logoUrl" alt="">
+            NAVET-O-METRE
+        </div>
 
-    <template v-if="user">
-        <header>
-            <span>Connecté en tant que {{ user.email }}</span>
-            <a v-if="user.roles.includes('ROLE_ADMIN')" :href="adminUrl" @click.prevent="openAdmin">Administration</a>
-            <button @click="logout">Se déconnecter</button>
-        </header>
+        <template v-if="user">
+            <nav class="tabs">
+                <button :class="{ secondary: tab !== 'movies' }" :aria-pressed="tab === 'movies'" @click="tab = 'movies'">Films</button>
+                <button :class="{ secondary: tab !== 'users' }" :aria-pressed="tab === 'users'" @click="tab = 'users'">Utilisateurs</button>
+            </nav>
 
-        <nav class="tabs">
-            <button :class="{ secondary: tab !== 'movies' }" :aria-pressed="tab === 'movies'" @click="tab = 'movies'">Films</button>
-            <button :class="{ secondary: tab !== 'users' }" :aria-pressed="tab === 'users'" @click="tab = 'users'">Utilisateurs</button>
-        </nav>
+            <div class="account">
+                <span>{{ user.email }}</span>
+                <a v-if="user.roles.includes('ROLE_ADMIN')" :href="adminUrl" @click.prevent="openAdmin">Administration</a>
+                <button class="secondary" @click="logout">Se déconnecter</button>
+            </div>
+        </template>
+    </header>
 
+    <main v-if="user">
         <Movies v-if="tab === 'movies'" :movies-url="moviesUrl" @logout="logout" />
         <Users
             v-else
@@ -73,7 +77,9 @@ function logout() {
             :followers-url="followersUrl"
             @logout="logout"
         />
-    </template>
-    <Register v-else-if="page === 'register'" :register-url="registerUrl" :login-url="loginUrl" @login="login" @show-login="page = 'login'" />
-    <Login v-else :login-url="loginUrl" @login="login" @show-register="page = 'register'" />
+    </main>
+    <main v-else class="card">
+        <Register v-if="page === 'register'" :register-url="registerUrl" :login-url="loginUrl" @login="login" @show-login="page = 'login'" />
+        <Login v-else :login-url="loginUrl" @login="login" @show-register="page = 'register'" />
+    </main>
 </template>

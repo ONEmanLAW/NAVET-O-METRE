@@ -12,18 +12,19 @@ body {
     background-color: #16121c;
 }
 
-#app,
+#app {
+    width: min(1200px, 100% - 2rem);
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
 .card {
-    width: min(960px, 100% - 2rem);
+    width: min(420px, 100% - 2rem);
     margin: 2rem auto;
     padding: 1.5rem;
     background-color: #211b2a;
     border: 1px solid #3b3247;
     border-radius: 6px;
-}
-
-.card {
-    width: min(420px, 100% - 2rem);
 }
 
 h1,
@@ -60,7 +61,6 @@ a {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.5rem;
     font-family: "Bebas Neue", Impact, sans-serif;
     font-size: 2rem;
     letter-spacing: 0.06em;
@@ -69,6 +69,10 @@ a {
 .brand img {
     width: 44px;
     height: 44px;
+}
+
+.card .brand {
+    margin-bottom: 1.5rem;
 }
 
 form {
@@ -128,21 +132,42 @@ button.link {
     text-decoration: underline;
 }
 
-header {
+.topbar {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    color: #a99db6;
+    gap: 1rem 2rem;
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
     border-bottom: 1px solid #3b3247;
 }
 
 .tabs {
     display: flex;
     gap: 0.5rem;
-    margin: 1.5rem 0;
+}
+
+.account {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+    color: #a99db6;
+}
+
+.search {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.search input[type="search"] {
+    flex: 1 1 240px;
+}
+
+.search input[type="number"] {
+    width: 110px;
 }
 
 .pagination {
@@ -169,29 +194,26 @@ header {
 }
 
 .movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.5rem 1rem;
     padding: 0;
     list-style: none;
 }
 
 .movies li {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.movies li span {
-    font-size: 1.125rem;
-    color: #ffc107;
-    cursor: pointer;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 .movies img,
 .no-poster {
-    flex-shrink: 0;
-    width: 60px;
-    height: 90px;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 0.5rem;
     object-fit: cover;
+    background-color: #2b2436;
     border-radius: 6px;
 }
 
@@ -199,8 +221,27 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     color: #a99db6;
-    background-color: #2b2436;
+}
+
+.movies strong {
+    display: -webkit-box;
+    overflow: hidden;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.movies small {
+    color: #a99db6;
+}
+
+.stars {
+    margin-top: auto;
+}
+
+.stars span {
+    color: #ffc107;
+    cursor: pointer;
 }
