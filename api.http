@@ -188,6 +188,30 @@ Accept: application/json
 
 
 ### ==================== USERS ====================
+### Créer un compte (422 si l'email existe déjà)
+POST {{baseURL}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@user.com",
+  "password": "password"
+}
+
+
+
+### Créer un compte invalide : 422
+POST {{baseURL}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "pas-un-email",
+  "password": "court"
+}
+
+
+
 ### Authenticate
 # @name login
 POST {{baseURL}}/api/login_check
