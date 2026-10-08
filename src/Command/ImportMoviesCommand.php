@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:import-movies',
-    description: 'Importe les films du fichier movies-db.json en base',
+    description: 'Imports the movies of movies-db.json into the database',
 )]
 class ImportMoviesCommand
 {
@@ -76,14 +76,14 @@ class ImportMoviesCommand
 
             if ($count % 1000 === 0) {
                 $this->entityManager->flush();
-                $io->writeln("$count films importés...");
+                $io->writeln("$count movies imported...");
             }
         }
 
         fclose($file);
         $this->entityManager->flush();
 
-        $io->success("$count films importés !");
+        $io->success("$count movies imported!");
 
         return Command::SUCCESS;
     }

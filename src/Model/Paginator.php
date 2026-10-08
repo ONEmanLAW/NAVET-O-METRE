@@ -25,7 +25,7 @@ class Paginator
             Window::fromPageNumberAndSize($paginationDTO->page, $paginationDTO->limit),
         );
 
-        $this->total = $paginator->count();
+        $this->total = $paginator->getTotalCount();
         $this->lastPage = $paginator->getPageCount();
         $this->items = $paginator->getItems();
 
