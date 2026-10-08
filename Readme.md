@@ -12,6 +12,8 @@ Un SensCritique fait maison : chercher et noter des films, suivre tes potes et j
 
 Pas de Mailer. Envoyer des mails, vérifier qu'ils arrivent bien, cliquer sur des liens de confirmation... On a préféré garder notre énergie pour les films. Vos boîtes mail nous remercient.
 
+Pas de Mercure non plus. Le temps réel demande un serveur en plus et un troisième terminal ouvert, juste pour voir la note de ton pote arriver sans recharger la page. À la place, on a une solution éprouvée : la touche F5. Rien à installer, compatible avec tous les navigateurs, testée depuis les années 90.
+
 ## 1. Installer les outils
 
 Il faut avoir sur sa machine :
