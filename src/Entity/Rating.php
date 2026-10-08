@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\TimestampableTrait;
 use App\Repository\RatingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,8 +10,11 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[ORM\Entity(repositoryClass: RatingRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_RATING_USER_MOVIE', fields: ['user', 'movie'])]
+#[ORM\HasLifecycleCallbacks]
 class Rating
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
